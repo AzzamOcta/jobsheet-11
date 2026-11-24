@@ -1,16 +1,18 @@
 import java.util.Scanner;
 
 public class Kafe09 {
-    public static void Menu(String namaPelanggan, boolean isMember) {
+    public static void Menu(String namaPelanggan, boolean isMember, String kodePromo ) {
         System.out.println("Selamat datang, " + namaPelanggan + "!");
 
         if (isMember) {
             System.out.println("Anda adalah member, dapatkan diskon 10% untuk setiap pembelian");
         }
 
-        // if (jamKunjungan >= 14 && jamKunjungan <= 16) {
-        //     System.out.println("Happy Hour! Diskon 20% untuk semua minuman");
-        // }
+        if (kodePromo.equalsIgnoreCase("DISKON30")) {
+            System.out.println("Selamat anda mendapatkan potongan 30%");
+        } else if (kodePromo.equalsIgnoreCase("DISKON50")) {
+            System.out.println("Selamat anda mendapatkan potongan 50%");
+        }
 
         System.out.println("===== MENU RESTO KAFE =====");
         System.out.println("1. Kopi Hitam - Rp 15,000");
@@ -31,7 +33,27 @@ public class Kafe09 {
     }
 
     public static double hitungDiskon(int totalHarga, String kodePromo, boolean isMember) {
+        double promo = 0;
+        double diskon = 0;
+        double potongan = 0;
+        double hasil = 0;
+
         
+        if(kodePromo.equalsIgnoreCase("DISKON50")) {
+            diskon = 0.5;
+            potongan = totalHarga * diskon;
+        } else if (kodePromo.equalsIgnoreCase("DISKON30")) {
+            diskon = 0.3;
+            potongan = totalHarga * diskon;
+        }
+        
+        if (isMember) {
+            promo = potongan * 0.1;
+            hasil = totalHarga - potongan - promo;
+            return  hasil;
+        } else {
+            return potongan;
+        }
     }
 
     public static void main(String[] args) {
@@ -39,12 +61,15 @@ public class Kafe09 {
 
         String nama;
         String member;
-        // int jam;
         int pilihanMenu;
         int banyakItems;
         String lanjut = "y";
+        String lanjutDiskon = "y";
         int i = 0;
         int totalHarga = 0;
+        String kodePromo;
+        double total = 0;
+        
 
         System.out.print("Masukkan nama anda: ");
         nama = sc.nextLine();
@@ -52,11 +77,22 @@ public class Kafe09 {
         System.out.print("Apakah anda punya member? (y/t): ");
         member = sc.nextLine();
 
-        // System.out.print("Jam berapa anda berkunjung: ");
-        // jam = sc.nextInt();
+        do {
+            System.out.print("Masukkan kode promo: ");
+            kodePromo = sc.nextLine();
+
+            if (!kodePromo.equalsIgnoreCase("DISKON50") && !kodePromo.equalsIgnoreCase("DISKON30")) {
+                System.out.println("Kode promo invalid");
+                System.out.print("Masukkan kode promo lagi? (y/t): ");
+                lanjutDiskon = sc.nextLine();
+
+            } else {
+                break;
+            }
+        } while (lanjutDiskon.equalsIgnoreCase("y"));
 
         
-        Menu(nama, member.equalsIgnoreCase("y"));
+        Menu(nama, member.equalsIgnoreCase("y"), kodePromo);
 
         do {
             System.out.print("Pilih menu (1-6): ");
@@ -79,7 +115,11 @@ public class Kafe09 {
             
         } while (lanjut.equalsIgnoreCase("y"));
 
-        System.out.println("Total harga untuk pesanan anda: " + totalHarga);
+        System.out.println("Total harga untuk pesanan anda: Rp" + totalHarga);
+
+        total = hitungDiskon(totalHarga, kodePromo, member.equalsIgnoreCase("y"));
+
+        System.out.println("Total harga setelah diskon: Rp" + total);
     }
 
     // public static void ubahNama(String nama) {
