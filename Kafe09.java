@@ -33,10 +33,10 @@ public class Kafe09 {
     }
 
     public static double hitungDiskon(int totalHarga, String kodePromo, boolean isMember) {
-        double promo = 0;
-        double diskon = 0;
+        double promo;
+        double diskon;
         double potongan = 0;
-        double hasil = 0;
+        double hasil;
 
         
         if(kodePromo.equalsIgnoreCase("DISKON50")) {
@@ -64,11 +64,11 @@ public class Kafe09 {
         int pilihanMenu;
         int banyakItems;
         String lanjut = "y";
-        String lanjutDiskon = "y";
+        String lanjutDiskon;
         int i = 0;
         int totalHarga = 0;
         String kodePromo;
-        double total = 0;
+        double total;
         
 
         System.out.print("Masukkan nama anda: ");
